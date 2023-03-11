@@ -21,6 +21,15 @@ class ParkingController extends Controller
            'vehicle_id' => ['required', 'integer', 'numeric', Rule::exists('vehicles', 'id')],
            'zone_id' => ['required', 'integer', 'numeric', Rule::exists('zones', 'id')] ,
         ]);
+        if (Parking::query()->where('vehicle_id', $validated['vehicle_id'])->whereNull('stop_time')->exists()) {
+            return response()->json([
+                'message' => "Can't parking twice for same vehicle. Please stop the current active parking",
+                'errors' => [
+                    'general' => ["Can't parking twice for same vehicle. Please stop the current active parking"]
+                ]
+            ], 422);
+        }
+
         $parking = $request->user()->parkings()->create($validated);
 
         return new ResponseSuccess(ParkingResource::make($parking->load(['vehicle', 'zone'])));

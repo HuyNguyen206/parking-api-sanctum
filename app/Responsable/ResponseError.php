@@ -15,7 +15,7 @@ class ResponseError implements \Illuminate\Contracts\Support\Responsable
      */
     public function toResponse($request)
     {
-        $data['message'] = $this->message ?? $this->ex->getMessage();
+        $data['message'] = $this->message ?? $this->ex->getMessage() ?? 'error';
         if ($this->ex && config('app.debug')) {
             $data['debug'] = [
                 'file' => $this->ex->getFile(),
