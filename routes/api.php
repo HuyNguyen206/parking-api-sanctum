@@ -27,6 +27,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('auth/logout', \App\Http\Controllers\Api\V1\Auth\LogoutController::class);
     Route::apiResource('vehicles', \App\Http\Controllers\Api\V1\VehicleController::class);
     Route::post('parkings/start', [\App\Http\Controllers\Api\V1\ParkingController::class, 'start'])->name('parkings.start');
+    Route::get('parkings', [\App\Http\Controllers\Api\V1\ParkingController::class, 'index'])->name('parkings.index');
+    Route::get('parkings/history', [\App\Http\Controllers\Api\V1\ParkingController::class, 'getHistory'])->name('parkings.history');
     Route::put('parkings/stop/{parking}', [\App\Http\Controllers\Api\V1\ParkingController::class, 'stop'])
         ->whereNumber('parking')->name('parkings.stop');
     Route::get('parkings/{parking}', [\App\Http\Controllers\Api\V1\ParkingController::class, 'show'])

@@ -11,6 +11,6 @@ class ParkingPriceService
     {
         $endTime = $endTime ?? now();
 
-        return number_format($startTime->diffInMinutes($endTime) * $price / 60, 2);
+        return ceil($startTime->diffInMinutes($endTime) * $price / 60);
     }
 }

@@ -47,6 +47,16 @@ class ParkingController extends Controller
 
     public function show(Parking $parking)
     {
-        return new ResponseSuccess(ParkingResource::make($parking));
+        return new ResponseSuccess(ParkingResource::make($parking->load('vehicle', 'zone')));
+    }
+
+    public function index(Request $request)
+    {
+        return new ResponseSuccess(ParkingResource::collection(Parking::with('vehicle', 'zone')->whereNull('stop_time')->get()));
+    }
+
+    public function getHistory(Request $request)
+    {
+        return new ResponseSuccess(ParkingResource::collection(Parking::with('vehicle', 'zone')->whereNotNull('stop_time')->get()));
     }
 }
